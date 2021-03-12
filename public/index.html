@@ -1,105 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Webpack/Babel-demo</title>
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack/Babel-demo</title>
-</head>
+	<body class="dark-mode">
+		<div class="page-wrapper">
+			<div class="sticky-alerts"></div>
 
-<body>
-  <!--
-    This div is added to remove the flicker that comes from bootstrap being loaded
-    first in index.js
-    REMEMBER to set display to "block" in index.js, otherwise you will not see anything
-  -->
-  <div id="all-content" style="display: none;">
-    <ul id="menu" class="header">
-      <li><a href="" id="about">About</a></li>
-      <li><a href="" id="ex1">Ex1</a></li>
-      <li><a href="" id="ex2">Ex2</a></li>
-      <li><a href="" id="ex3">Ex3</a></li>
-    </ul>
+			<div class="content-wrapper">
+				<div class="container">
+					<h1>Users</h1>
+					<div class="table-responsive">
+						<table class="table" id="users_table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Firstname</th>
+									<th>Lastname</th>
+									<th>Phone</th>
+									<th>Street</th>
+									<th>City</th>
+									<th>Zip</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="pt-20 pb-20 position-sticky bottom-0 bg-dark-light-dm bg-light-lm">
+						<a href="" id="refresh_users" class="btn" role="button">Refresh</a>
+						<a href="#m_create_user" class="btn btn-primary ml-10" role="button">Create User</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <div class="content">
+		<div class="modal" id="m_create_user" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content w-600">
+					<a href="#" class="btn close" role="button" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</a>
+					<h5 class="modal-title">Create User</h5>
+					<form id="f_create_user">
+						<div class="form-row row-eq-spacing-sm">
+							<div class="col-sm">
+								<label for="cu_first-name" class="required">First name</label>
+								<input type="text" class="form-control" id="cu_first-name" placeholder="First name" name="fName" required="required" />
+							</div>
+							<div class="col-sm">
+								<label for="cu_last-name" class="required">Last name</label>
+								<input type="text" class="form-control" id="cu_last-name" name="lName" placeholder="Last name" required="required" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="cu_phone" class="required">Phone number</label>
+							<input type="text" class="form-control" id="cu_phone" placeholder="Phone number" name="phone" required="required" />
+						</div>
+						<div class="form-row row-eq-spacing-sm">
+							<div class="col-sm">
+								<label for="cu_street" class="required">Street</label>
+								<input type="text" class="form-control" id="cu_street" placeholder="Street" name="street" required="required" />
+							</div>
+							<div class="col-sm-4">
+								<label for="cu_city" class="required">City</label>
+								<input type="text" class="form-control" id="cu_city" name="city" placeholder="City" required="required" />
+							</div>
+							<div class="col-sm-2">
+								<label for="cu_zip" class="required">ZIP</label>
+								<input type="number" class="form-control" id="cu_zip" name="zip" placeholder="ZIP" required="required" />
+							</div>
+						</div>
+						<div class="d-flex justify-content-end">
+							<input class="btn btn-primary" type="submit" value="Create User" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
-      <!-- This is were you should place your basic HTML for exercise-1 -->
-      <div id="ex1_html" style="display:none;">
-        <h3>Exercise 1</h3>
-        <p>Add your basic HTML for Exercise 1 here</p>
-        <ul id="jokes"></ul>
+		<div class="modal" id="m_edit_user" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content w-600">
+					<a href="#" class="btn close" role="button" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</a>
+					<h5 class="modal-title">Edit User #<span></span></h5>
 
-      </div>
-      <!-- End of HTML for exercise-1 -->
+					<form id="f_edit_user">
+						<input name="id" hidden />
+						<div class="form-row row-eq-spacing-sm">
+							<div class="col-sm">
+								<label for="cu_first-name" class="required">First name</label>
+								<input type="text" class="form-control" id="cu_first-name" placeholder="First name" name="fName" required="required" />
+							</div>
+							<div class="col-sm">
+								<label for="cu_last-name" class="required">Last name</label>
+								<input type="text" class="form-control" id="cu_last-name" name="lName" placeholder="Last name" required="required" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="cu_phone" class="required">Phone number</label>
+							<input type="text" class="form-control" id="cu_phone" placeholder="Phone number" name="phone" required="required" />
+						</div>
+						<div class="form-row row-eq-spacing-sm">
+							<div class="col-sm">
+								<label for="cu_street" class="required">Street</label>
+								<input type="text" class="form-control" id="cu_street" placeholder="Street" name="street" required="required" />
+							</div>
+							<div class="col-sm-4">
+								<label for="cu_city" class="required">City</label>
+								<input type="text" class="form-control" id="cu_city" name="city" placeholder="City" required="required" />
+							</div>
+							<div class="col-sm-2">
+								<label for="cu_zip" class="required">ZIP</label>
+								<input type="number" class="form-control" id="cu_zip" name="zip" placeholder="ZIP" required="required" />
+							</div>
+						</div>
+						<div class="d-flex justify-content-end">
+							<input class="btn btn-primary" type="submit" value="Edit User" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
+		<div class="modal" id="m_delete_user" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content w-600">
+					<a href="#" class="btn close" role="button" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</a>
+					<h5 class="modal-title">Delete user #<span></span></h5>
 
-
-      <!-- This is were you should place your basic HTML for exercise-2 -->
-      <div id="ex2_html" style="display:none;">
-        <h3>Exercise 2</h3>
-        <p id="ex2p">Add your basic HTML for Exercise 2 here</p>
-      </div>
-      <!-- End of HTML for exercise-2 -->
-
-
-      <!-- This is were you should place your basic HTML for exercise-3 -->
-      <div id="ex3_html" style="display:none;">
-        <h3>Ex-3</h3>
-        <p>Add your basic HTML for Exercise 3 here</p>
-
-        <div class="row" style="min-height: 5em;"">
-      <div class=" col-md-8 pre-scrollable" style="background-color: lightgrey;">
-          <h5>All Users</h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Age</th>
-                <th>Name
-                <th>
-                <th>Gender</th>
-                <th>Email </th>
-            </thead>
-            <tbody id="allUserRows">
-            <tbody>
-          </table>
-        </div>
-        <div class="col-md-4" style="background-color: powderblue;">
-          <h5>Find User</h5>
-        </div>
-      </div>
-      <div class="row" style="min-height: 5em;">
-        <div class="col-md-4" style="background-color: powderblue;">
-          <h5>Add User</h5>
-        </div>
-        <div class="col-md-4" style="background-color: lightgrey;">
-          <h5>Edit User</h5>
-        </div>
-        <div class="col-md-4" style="background-color: powderblue;">
-          <h5>Delete User</h5>
-        </div>
-      </div>
-      <!-- </div> -->
-      <!-- End of HTML for exercise-3 -->
-
-      <!---- HTML for the About page -->
-
-    </div>
-
-    <div id="about_html" style="display:none;">
-      <h3>About</h3>
-      <p>Watch the small video given as intro to this code, BEFORE you start using it</p>
-    </div>
-    <!-- End of HTML for ABOUT Page -->
-
-
-    <!--End of all content -->
-  </div>
-
-  <!-- #################################################################-->
-  <!-- IMPORTANT  DO NOT IMPORT ANY JavaScript in this file by YOURSELF -->
-  <!-- #################################################################-->
-
-</body>
-
+					<form id="f_delete_user">
+						<input name="id" hidden />
+						<div class="form-row row-eq-spacing-sm">
+							<div class="col-sm">
+								<label for="cu_first-name" class="required">First name</label>
+								<input type="text" class="form-control" id="cu_first-name" placeholder="First name" name="fName" required="required" />
+							</div>
+							<div class="col-sm">
+								<label for="cu_last-name" class="required">Last name</label>
+								<input type="text" class="form-control" id="cu_last-name" name="lName" placeholder="Last name" required="required" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="cu_phone" class="required">Phone number</label>
+							<input type="text" class="form-control" id="cu_phone" placeholder="Phone number" name="phone" required="required" />
+						</div>
+						<div class="form-row row-eq-spacing-sm">
+							<div class="col-sm">
+								<label for="cu_street" class="required">Street</label>
+								<input type="text" class="form-control" id="cu_street" placeholder="Street" name="street" required="required" />
+							</div>
+							<div class="col-sm-4">
+								<label for="cu_city" class="required">City</label>
+								<input type="text" class="form-control" id="cu_city" name="city" placeholder="City" required="required" />
+							</div>
+							<div class="col-sm-2">
+								<label for="cu_zip" class="required">ZIP</label>
+								<input type="number" class="form-control" id="cu_zip" name="zip" placeholder="ZIP" required="required" />
+							</div>
+						</div>
+						<div class="d-flex justify-content-end align-items-center">
+							<p class="text-danger m-0 mr-10">Are you sure you want delete this user?</p>
+							<input class="btn btn-danger" type="submit" value="Delete user" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
