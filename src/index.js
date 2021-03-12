@@ -58,8 +58,8 @@ displayUsers();
  */
 
 // All our events do almost the exact same thing...
-// Builds a json object from formdata and sends to our user repository.
-// Reset the form and refresh the user table -- except if an error happened.
+// 1) Builds a json object from formdata and sends to our user repository.
+// 2) Reset the form and refresh the user table -- except if an error happened.
 // So having one function to manage all events seems more logical here.
 async function handleFormEvent(event, $form, requestType) {
 	event.preventDefault();
@@ -70,9 +70,9 @@ async function handleFormEvent(event, $form, requestType) {
 	$submit.disabled = true;
 
 	try {
-		// Our 4 types of requests...
 		let userResponse;
 		let pastTense; // Just for nicer UI
+		// Our 3 types of requests...
 		switch (requestType) {
 			case "create":
 				userResponse = await userRepository.addUser(user);
@@ -96,7 +96,7 @@ async function handleFormEvent(event, $form, requestType) {
 		displayError(err);
 	}
 	await displayUsers();
-	// Finish loading.
+	// Everything is complete... enable submit...
 	$submit.disabled = false;
 }
 
